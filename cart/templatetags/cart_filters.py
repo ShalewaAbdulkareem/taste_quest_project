@@ -1,14 +1,11 @@
-# cart/templatetags/cart_filters.py
-
 from django import template
 
-# Register the custom filter
 register = template.Library()
 
 @register.filter
 def multiply(value, arg):
-    """Multiplies the value with the argument."""
     try:
         return value * arg
-    except (ValueError, TypeError):
-        return 0
+    except:
+        return 0  # Return 0 if there's an error (e.g., value or arg is None)
+

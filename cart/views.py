@@ -1,4 +1,3 @@
-from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, get_object_or_404
@@ -7,17 +6,10 @@ from fruits_app.models import Product
 from .cart import Cart
 
 def cart_summary(request):
-    cart = Cart(request) #Assuming Cart is a class that manages cart functionality
+    cart = Cart(request) 
+    return render(request, 'cart.html', {'cart': cart})
 
-    #Get the cart items, their quantity, and total price
-    cart_items = cart.get_items() # Replace with appropriate methods to get cart items
-    total_price = cart.get_total_price() # Replace with appropriate method to calculate total 
 
-    context = {
-        'cart': cart_items,
-        total_price: total_price
-    }
-    return render(request,'cart.html', context) 
 
 def cart_add(request):
     cart = Cart(request)
@@ -29,7 +21,6 @@ def cart_add(request):
 
         cartqty = cart.__len__()
         response = JsonResponse({'qty': cartqty})
-         
         return response
 
 def cart_delete(request):
@@ -51,7 +42,7 @@ def cart_update(request):
         product_qty = int(request.POST.get('productqty'))
         cart.update(product=product_id, qty=product_qty)
 
-        cartqty =cart.__len__()
+        cartqty = cart.__len__()
         carttotal = cart.get_total_price()
-        response = self.JsonResponse({'qty': cartqty, 'subtotal': carttotal})
+        response = JsonResponse({'qty': cartqty, 'subtotal': carttotal})  # Removed `self`
         return response
