@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load cart_filters %}  <!-- Load the custom filter -->
+
+
+{% load static %}
+
+{% block title %} 
+  Cart Page
+{% endblock title %}
+
+{% block content %}
+  <div class="cart-section mt-150 mb-150">
+    <div class="container">
+      <div class="row">
+        {% for item in cart %}
+          {% with product=item.product %}
+            <div data-index="{{ product.id }}" class="col-lg-8 col-md-12 product-item">
+              <div class="cart-table-wrap">
+                <table class="cart-table">
+                  <thead class="cart-table-head">
+                    <tr class="table-head-row">
+                      <th class="product-remove"></th>
+                      <th class="product-image">Product Image</th>
+                      <th class="product-name">Name</th>
+                      <th class="product-price">Price</th>
+                      <th class="product-quantity">Quantity</th>
+                      <th class="product-total">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="table-body-row">
+                      <td class="product-remove">
+                        <a href="#"><i class="far fa-window-close"></i></a>
+                      </td>
+                      <td class="product-image">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                      </td>
+                      <td class="product-name">{{ product.name }}</td>
+                      <td class="product-price">{{ product.price }}</td>
+                      <td class="product-quantity">
+                        <input type="number" value="{{ item.quantity }}" min="1">
+                      </td>
+                      <td class="product-total">{{ item.quantity|multiply:product.price }}</td>  <!-- Use the custom filter -->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          {% endwith %}
+        {% endfor %}
+
+        <div class="col-lg-4">
+          <div class="total-section">
+            <table class="total-table">
+              <thead class="total-table-head">
+                <tr class="table-total-row">
+                  <th>Total</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="total-data">
+                  <td><strong>Subtotal: </strong></td>
+                  <td id="subtotal">{{ total_price }}</td>  <!-- Display total price -->
+                </tr>
+                <!-- <tr class="total-data">
+                  <td><strong>Shipping: </strong></td>
+                  <td>${{ total_price|add:"45"|add:shipping_fee}}</td>
+                </tr>
+                <tr class="total-data">
+                  <td><strong>Total: </strong></td>
+                  <td>${{ total_price|add:"45"|add:shipping_fee}}</td>  <!-- Total including shipping -->
+                <!-- </tr> -->
+              </tbody>
+            </table>
+            <div class="cart-buttons">
+              <a href="cart.html" class="boxed-btn">Update Cart</a>
+              <a href="checkout.html" class="boxed-btn black">Check Out</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+	
+	<script>
+		$(document).on('click', '.delete-button', function (e) {
+			e.preventDefault();
+			const prodid =$(this).data('index');
+			$.ajax({
+				type: 'POST',
+				url: '{% url "cart:cart_delete" %}',
+				data: {
+					productid: $(this).val('index'),
+					crsfmiddlewaretoken: "{{ csrf_token }}",
+					action: 'post'
+				},
+				success: function (json) {
+					$('.product-item[data-index=" '+ prodid +'"]').remove();
+					document.getElementById('subtotal').innerHTML = json.subtotal
+				},
+				error: function (xhr, errmsg, err) {}
+			});
+		})
+
+
+
+		// update button
+		$(document).on('click', '.update-button', function (e) {
+			e.preventDefault();
+			const prodid =$(this).data('index');
+			$.ajax({
+				type: 'POST',
+				url: '{% url "cart:cart_update" %}',
+				data: {
+					productid: $('#update-button').val(),
+					productqty: $('#select form:selected').text(),
+					crsfmiddlewaretoken: "{{ csrf_token }}",
+					action: 'post'
+				},
+				success: function (json) {
+					document.getElementById('cart-qty').innerHTML = json.qty
+					document.getElementById('subtotal').innerHTML = json.subtotal
+				},
+				error: function (xhr, errmsg, err) {}
+			});
+		}) 
+	</script>
+	<!-- end cart -->
+
+    {% endblock %}
