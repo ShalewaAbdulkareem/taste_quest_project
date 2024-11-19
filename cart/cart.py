@@ -15,18 +15,34 @@ class Cart():
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
+
     def add(self, product, qty):
         """
-        Add and update the user's cart session data.
+         and update the user's cart session data.
         """
         product_id = str(product.id)
         if product_id not in self.cart:
-            self.cart[product_id]['qty'] = qty
-        else:
+        # Add product to cart
             self.cart[product_id] = {'price': str(product.price), 'qty': qty}
+        else:
+        # Update quantity if product exists
+            self.cart[product_id]['qty'] += qty
+
+        self.save()
+
+
+    # def add(self, product, qty):
+    #     """
+    #     Add and update the user's cart session data.
+    #     """
+    #     product_id = str(product.id)
+    #     if product_id not in self.cart:
+    #         self.cart[product_id]['qty'] = qty
+    #     else:
+    #         self.cart[product_id] = {'price': str(product.price), 'qty': qty}
 
         
-        self.save()
+    #     self.save()
 
     def __iter__(self):
         """
@@ -51,16 +67,31 @@ class Cart():
         """
         return sum(item['qty'] for item in self.cart.values())
 
+
+
+
+
+
     def get_total_price(self):
-        suntotal = sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
-        if subtotal == 0:
-            shipping = Decimal(0.00)
-        else:
-            shipping = Decimal(0.00)
+        """
+        Calculate total price including shipping.
+        """
+        subtotal = sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
+        shipping = Decimal(0.00) if subtotal == 0 else Decimal(10.00)  # Example shipping fee
+        total = subtotal + shipping
+        return total
 
-            total = subtotal + Decimal(shipping)
 
-            return total
+    # def get_total_price(self):
+    #     suntotal = sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
+    #     if subtotal == 0:
+    #         shipping = Decimal(0.00)
+    #     else:
+    #         shipping = Decimal(0.00)
+
+    #         total = subtotal + Decimal(shipping)
+
+    #         return total
 
 
     def get_subtotal_price(self):
@@ -94,5 +125,8 @@ class Cart():
 
 
     def save(self):
+        """
+        Mark the session as modified to ensure it saves changes.
+        """
+        self.session[settings.CART_SESSION_ID] = self.cart
         self.session.modified = True
-    
