@@ -83,9 +83,6 @@ def single_product(request, id):
         'details':product
         }
     return render(request, 'single-product.html',context)
-
-def cart(request):
-    return render(request, 'cart.html')
     
 def checkout(request):
     return render(request, 'checkout.html')

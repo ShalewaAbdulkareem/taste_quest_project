@@ -34,8 +34,7 @@
 	<link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
 	<!-- responsive -->
 	<link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
-	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
-
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
 	
@@ -56,7 +55,7 @@
 						<!-- logo -->
 						<div class="site-logo">
 							<a href="index.html">
-								<img src="{% static 'assets/img/logo.png' %}" alt="">
+								<img src="{% static 'assets/img/food-logo1.png' %}" alt="">
 							</a>
 						</div>
 						<!-- logo -->
@@ -64,6 +63,7 @@
 						<!-- menu start -->
 						<nav class="main-menu">
 							<ul>
+
 								<!-- <li class="current-list-item"><a href="#">Home</a> -->
 									<!-- <ul class="sub-menu"> -->
 										<!-- <li><a href="index.html">Static Home</a></li> -->
@@ -75,7 +75,7 @@
 									<ul class="sub-menu">
 										<li><a href="404.html">404 page</a></li>
 										<li><a href="{% url 'fruits_app:about' %}">About</a></li>
-										<li><a href="{% url 'fruits_app:cart' %}">Cart</a></li>
+										<li><a href="{% url 'cart:cart_summary' %}">Cart</a></li>
 										<li><a href="{% url 'fruits_app:checkout' %}">Check Out</a></li>
 										<li><a href="{% url 'fruits_app:contact' %}">Contact</a></li>
 										<li><a href="{% url 'fruits_app:blog' %}">Blog</a></li>
@@ -93,7 +93,7 @@
 										<li><a href="{% url 'fruits_app:shop' %}">Shop</a></li>
 										<li><a href="{% url 'fruits_app:checkout' %}">Check Out</a></li>
 										<li><a href="">Single Product</a></li>
-										<li><a href="{% url 'fruits_app:cart' %}">Cart</a></li>
+										<li><a href="{% url 'cart:cart_summary' %}">Cart</a></li>
 									</ul>
 								</li>
 								<li>

@@ -2044,7 +2044,7 @@ p.testimonial-body {
 # About Styles
 
 ----------------------------------------------------------------------------- */
-a.video-play-btn {
+/* a.video-play-btn {
   position: absolute;
   background-color: #F28123;
   color: #051922;
@@ -2063,9 +2063,12 @@ a.video-play-btn {
   box-shadow: 0 0 20px #adadad;
   left: 50%;
   margin-left: -45px;
-}
+} */
 
 .abt-bg {
+  background-image: url(../img/about.jpeg);
+}
+/* .abt-bg {
   background-image: url(../img/abt.jpg);
   height: 100%;
   width: 100%;
@@ -2107,7 +2110,7 @@ a.video-play-btn {
 
 .abt-text p:last-child {
   margin-bottom: 0;
-}
+} */
 
 /* -----------------------------------------------------------------------------
 

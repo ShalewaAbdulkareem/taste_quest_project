@@ -39,16 +39,15 @@
 						<p class="single-product-pricing"><span>Per Portion</span>&#8358;{{details.price}}</p>
 						<p>{{details.description}}</p>
 						<div class="single-product-form">
-							<form id="select" action="{% url 'fruits_app:cart' %}" method="post">
+							<form id="select" action="{% url 'cart:cart_summary' %}" method="post">
 								{% csrf_token %}
 							<input type="number" id="quantity-input" name="quantity" value="1" placeholder="0" min="1" required>
-							<input type="hidden" id="product-id" value="{{ product.id }}">  <!-- Use product.id here -->
+							<input type="hidden" id="product-id" value="{{ details.id }}">  <!-- Use product.id here -->
 							<button type="submit" id="add-button" class="cart-btn" style="background-color: #F28123; color: white;">
 								<i class="fas fa-shopping-cart"></i> Add to Cart
 							</button>
 							</form>
 						</div>						
-							<!-- <a href="{% url 'fruits_app:cart' %}" id="add-button" value="{{product.id}}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a> -->
 							<p><strong>Categories: </strong>Fruits, Organic</p>
 						
 					</div>
@@ -66,6 +65,7 @@ $(document).on('click', '#add-button', function (e) {
     e.preventDefault();
     
     var productId = $('#product-id').val(); 
+	console.log(productId);
     var productQty = $('#quantity-input').val();
     
     $.ajax({
@@ -79,6 +79,8 @@ $(document).on('click', '#add-button', function (e) {
         },
         success: function (json) {
             document.getElementById('cart-qty').innerHTML = json.qty;
+			console.log('Success');
+			console.log(this.data);
         },
         error: function (xhr, errmsg, err) {
             console.log("Error:", errmsg); 

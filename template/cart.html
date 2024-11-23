@@ -43,25 +43,25 @@
 <div class="cart-section mt-150 mb-150">
   <div class="container">
           <div class="row d-flex justify-content-center my-4">
-            {% if basket|length == 0 %}
+            {% if cart|length == 0 %}
             <div class="col-md-6">
               <div class="card mb-4">
                 <div class="card-body">
-                  <p><strong>Your basket is empty</strong></p>
-                  <a href="{% url 'fruits_app:index' %}">Continue Shopping</a>
+                  <p><strong>Your cart is empty</strong></p>
+                  <a href="{% url 'fruits_app:shop' %}">Continue Shopping</a>
                 </div>
               </div>
             </div>
             {% else %}
             <div class="col-md-6">
               <div>
-                <a href="{% url 'fruits_app:index' %}">Continue Shopping</a>
+                <a href="{% url 'fruits_app:shop' %}">Continue Shopping</a>
               </div>
               <div class="card mb-4">
                 <div class="card-header py-3">
-                  <h5 class="mb-0">Basket Summary</h5>
+                  <h5 class="mb-0">Cart Summary</h5>
                 </div>
-                {% for item in basket %}
+                {% for item in cart %}
                 {% with product=item.product %}
                 <div class="card-body product-item" data-index="{{product.id}}">
                   <!-- Single item -->
@@ -116,7 +116,7 @@
                         <form id="select" action="{% url 'cart:cart_add' %}" method="post">
                           {% csrf_token %}
                           <input type="number" id="quantity-input" name="quantity" value="1" placeholder="0" min="1" required>
-                          <input type="hidden" id="product-id" value="{{ product.id }}">  <!-- Use product.id here -->
+                          <input type="hidden" id="product-id" value="{{ product.id }}">
                           <button type="submit" id="add-button" class="cart-btn" style="background-color: #F28123; color: white;">
                             <i class="fas fa-shopping-cart"></i> Add to Cart
                           </button>
@@ -175,5 +175,79 @@
 
 </div>
 </div>
+
+
+<script>
+  // Delete product
+  $(document).on('click', '.delete-button', function (e) {
+    e.preventDefault();
+    const prodid = $(this).data('index');
+    $.ajax({
+      type: 'POST',
+      url: '{% url "cart:cart_delete" %}',
+      data: {
+        productid: prodid,
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        action: 'post'
+      },
+      success: function (json) {
+        $('.product-item[data-index="'+ prodid +'"]').remove();
+        document.getElementById('subtotal').innerHTML = json.subtotal;
+      },
+      error: function (xhr, errmsg, err) {
+        console.log("Error: " + errmsg);
+      }
+    });
+  });
+
+
+  $(document).on('click', '.update-button', function (e) {
+    e.preventDefault();
+    const prodid = $(this).data('index');  // Get product ID from the button
+    const productqty = $(this).closest('.product-item').find('.product-quantity-input').val();  // Find the quantity input for this product
+    $.ajax({
+        type: 'POST',
+        url: '{% url "cart:cart_update" %}',
+        data: {
+            productid: prodid,
+            productqty: productqty,
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+            action: 'post'
+        },
+        success: function (json) {
+            // Update the cart summary on the page
+            $('#cart-qty').text(json.qty);
+            $('#subtotal').text(json.subtotal);
+        },
+        error: function (xhr, errmsg, err) {
+            console.log("Error: " + errmsg);
+        }
+    });
+});
+
+  // Update product quantity
+  // $(document).on('click', '.update-button', function (e) {/
+    // e.preventDefault();
+  //   const prodid = $(this).data('index');
+  //   const productqty = $('.product-quantity-input').val();  // Get the updated quantity
+  //   $.ajax({
+  //     type: 'POST',
+  //     url: '{% url "cart:cart_update" %}',
+  //     data: {
+  //       productid: prodid,
+  //       productqty: productqty,
+  //       csrfmiddlewaretoken: "{{ csrf_token }}",
+  //       action: 'post'
+  //     },
+  //     success: function (json) {
+  //       document.getElementById('cart-qty').innerHTML = json.qty;
+  //       document.getElementById('subtotal').innerHTML = json.subtotal;
+  //     },
+  //     error: function (xhr, errmsg, err) {
+  //       console.log("Error: " + errmsg);
+  //     }
+  //   });
+  // });
+</script>
 
 {% endblock %}
