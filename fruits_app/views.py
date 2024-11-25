@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404,redirect
-from .models import Product,Category,Blog,Contact,Cart,Comment
+from .models import Product,Category,Blog,Contact,Cart,Comment,Reply,CommentReaction
 from django.contrib import messages
 from django.core.paginator import Paginator
-from .forms import CommentForm
+from .forms import CommentForm,ReplyForm,CommentReactionForm
 
 
 
@@ -111,10 +111,40 @@ def single_blog(request, id):
             return redirect('fruits_app:single-blog', id=blog_details.id)
 
 
+    # Handle comment replies
+    if request.method == 'POST' and 'reply_form' in request.POST:
+        reply_form = ReplyForm(request.POST)
+        if reply_form.is_valid():
+            comment = get_object_or_404(Comment, id=request.POST.get('comment_id'))
+            reply = reply_form.save(commit=False)
+            reply.comment = comment
+            reply.save()
+            return redirect('fruits_app:single-blog', blog_id=blog_id)
+    
+    # Handle comment likes/dislikes
+    if request.method == 'POST' and 'reaction_form' in request.POST:
+        reaction_form = CommentReactionForm(request.POST)
+        if reaction_form.is_valid():
+            comment = get_object_or_404(Comment, id=request.POST.get('comment_id'))
+            reaction, created = CommentReaction.objects.get_or_create(comment=comment, user=request.user)
+            reaction.like = reaction_form.cleaned_data['like']
+            reaction.dislike = reaction_form.cleaned_data['dislike']
+            reaction.save()
+            return redirect('fruits_app:single-blog', blog_id=blog_id)
+    
+    return render(request, 'single_blog.html', {
+        'blog_details': blog_details,
+        'comments': comments,
+        'comment_form': ReplyForm(),
+    })
+
+
+
 
     context = {
         'blog_details': blog_details,
         'comment_form': comment_form,
-        'comments': comments 
+        'comments': comments,
+         
     }
     return render(request, 'single-blog.html', context)

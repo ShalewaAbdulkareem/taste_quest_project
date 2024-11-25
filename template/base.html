@@ -51,11 +51,11 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
+					<div class="main-menu-wrap" style="display: flex; justify-content: space-between; align-items: center;">
 						<!-- logo -->
 						<div class="site-logo">
 							<a href="index.html">
-								<img src="{% static 'assets/img/food-logo1.png' %}" alt="">
+								<img src="{% static 'assets/img/food logo.png' %}" alt="" style="width: 100px;">
 							</a>
 						</div>
 						<!-- logo -->
@@ -96,24 +96,21 @@
 										<li><a href="{% url 'cart:cart_summary' %}">Cart</a></li>
 									</ul>
 								</li>
-								<li>
-									<div class="header-icons">
-										<a id="cart-qty" class="shopping-cart" href="{% url 'cart:cart_summary' %}">
-											<i class="fas fa-shopping-cart"></i>
-											{% with total_qty=cart|length %}
-												{% if total_qty > 0 %}
-													{{ total_qty }}
-													{% else %}
-													0
-												{% endif %}
-											{% endwith %}
-										</a> 
-										<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-									</div>
-								</li>
-								
 							</ul>
 						</nav>
+						<div class="header-icons">
+							<a id="cart-qty" class="shopping-cart" href="{% url 'cart:cart_summary' %}">
+								<i class="fas fa-shopping-cart"></i>
+								{% with total_qty=cart|length %}
+									{% if total_qty > 0 %}
+										{{ total_qty }}
+									{% else %}
+										0
+									{% endif %}
+								{% endwith %}
+							</a> 
+							<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+						</div>
 						<a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
 						<div class="mobile-menu"></div>
 						<!-- menu end -->

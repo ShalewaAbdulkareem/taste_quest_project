@@ -50,3 +50,25 @@ class Comment(models.Model):
     message = models.TextField()
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now) 
+
+    def __str__(self):
+        return self.name
+
+class Reply(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='replies')
+    name = models.CharField(max_length=100)
+    message = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Reply to {self.comment.name}"
+
+class CommentReaction(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='reactions')
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    like = models.BooleanField(default=False)
+    dislike = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Reaction by {self.user.username} on comment {self.comment.id}"
+

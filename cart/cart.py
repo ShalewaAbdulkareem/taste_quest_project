@@ -20,10 +20,10 @@ class Cart():
         """
          and update the user's cart session data.
         """
-        product_id = str(product.id)
+        product_id = product.id
         if product_id not in self.cart:
         # Add product to cart
-            self.cart[product_id] = {'price': str(product.price), 'qty': qty}
+            self.cart[product_id] = {'price': str(product.price), 'qty': int(qty)}
         else:
         # Update quantity if product exists
             self.cart[product_id]['qty'] += qty
@@ -57,7 +57,7 @@ class Cart():
 
         for item in cart.values():
             item['price'] = Decimal(item['price'])
-            item['total-price'] = item['price'] * item['qty']
+            item['total_price'] = item['price'] * item['qty']
             yield item
 
 

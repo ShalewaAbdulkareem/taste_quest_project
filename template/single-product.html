@@ -41,7 +41,7 @@
 						<div class="single-product-form">
 							<form id="select" action="{% url 'cart:cart_summary' %}" method="post">
 								{% csrf_token %}
-							<input type="number" id="quantity-input" name="quantity" value="1" placeholder="0" min="1" required>
+							<input type="number" id="quantity-input" name="quantity" value="1" placeholder="0"  required>
 							<input type="hidden" id="product-id" value="{{ details.id }}">  <!-- Use product.id here -->
 							<button type="submit" id="add-button" class="cart-btn" style="background-color: #F28123; color: white;">
 								<i class="fas fa-shopping-cart"></i> Add to Cart
