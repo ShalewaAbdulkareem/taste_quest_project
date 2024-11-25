@@ -44,5 +44,6 @@ def cart_update(request):
 
         cartqty = cart.__len__()
         carttotal = cart.get_subtotal_price()
-        response = JsonResponse({'qty': cartqty, 'subtotal': carttotal})  # Removed `self`
-        return response
+        carttotal1 = cart.get_total_price()
+        return JsonResponse({'qty': cartqty, 'subtotal': str(carttotal), 'total-price': str(carttotal1)})
+

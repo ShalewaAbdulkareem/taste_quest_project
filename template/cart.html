@@ -115,11 +115,15 @@
                       <div class="single-product-form">
                         <form id="select" action="{% url 'cart:cart_add' %}" method="post">
                           {% csrf_token %}
-                          <input type="number" id="quantity-input" name="quantity" value="{{item.qty}}" placeholder="0"  required>
+                          <!-- Updated input field with unique ID -->
+                          <input type="number" class="product-quantity-input" id="quantity-input-{{ product.id }}" name="quantity" value="{{ item.qty }}" placeholder="0" required>
+                          
+                          <!-- Hidden field for product ID -->
                           <input type="hidden" id="product-id" value="{{ product.id }}">
-                          <button type="submit" id="add-button" class="cart-btn" style="background-color: #F28123; color: white;">
+                          
+                          <!-- <button type="submit" id="add-button" class="cart-btn" style="background-color: #F28123; color: white;">
                             <i class="fas fa-shopping-cart"></i> Add to Cart
-                          </button>
+                          </button> -->
                         </form>
                       </div>
                       <p class="text-start text-md-center">
@@ -147,24 +151,28 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <!-- Subtotal -->
                   <tr class="total-data">
                     <td><strong>Subtotal: </strong></td>
-                    <td id="subtotal">$500</td>
+                    <td id="subtotal">&#8358; {{ cart.get_subtotal_price }}</td>
                   </tr>
+                  <!-- Delivery Fee -->
                   <tr class="total-data">
                     <td><strong>Delivery: </strong></td>
-                    <td>$45</td>
+                    <td id="delivery-fee">&#8358; 45.00</td>
                   </tr>
+                  <!-- Total -->
                   <tr class="total-data">
                     <td><strong>Total: </strong></td>
-                    <td>$545</td>
+                    <td id="total-price">&#8358; {{ cart.get_total_price }}</td>
                   </tr>
                 </tbody>
               </table>
               <div class="cart-buttons">
-                <a href="cart.html" class="boxed-btn">Update Cart</a>
-                <a href="checkout.html" class="boxed-btn black">Check Out</a>
+                <a href="#" class="boxed-btn" id="update-cart-button">Update Cart</a>
+                <a href="" class="boxed-btn black">Check Out</a>
               </div>
+              
             </div>
 
           </div>
@@ -229,26 +237,28 @@
   // Update product quantity
   $(document).on('click', '.update-button', function (e) {
     e.preventDefault();
-    const prodid = $(this).data('index');
-    const productqty = $('.product-quantity-input').val();  
+    const prodid = $(this).data('index');  // Product ID from button
+    const productqty = $('#quantity-input-' + prodid).val();  // Fetch quantity for this product
     $.ajax({
-      type: 'POST',
-      url: '{% url "cart:cart_update" %}',
-      data: {
-        productid: prodid,
-        productqty: productqty,
-        csrfmiddlewaretoken: "{{ csrf_token }}",
-        action: 'post'
-      },
-      success: function (json) {
-        document.getElementById('cart-qty').innerHTML = json.qty;
-        document.getElementById('subtotal').innerHTML = json.subtotal;
-      },
-      error: function (xhr, errmsg, err) {
-        console.log("Error: " + errmsg);
-      }
+        type: 'POST',
+        url: '{% url "cart:cart_update" %}',  
+        data: {
+            productid: prodid,
+            productqty: productqty,
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+            action: 'post'
+        },
+        success: function (json) {
+          $('#cart-qty').text(json.qty);  
+          $('#subtotal').text(json.subtotal);  
+          $('#total-price').text(json['total-price']);   
+        },
+        error: function (xhr, errmsg, err) {
+            console.log("Error: " + errmsg);  
+        }
     });
-  });
+});
+
 </script>
 
 {% endblock %}
