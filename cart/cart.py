@@ -21,12 +21,12 @@ class Cart():
          and update the user's cart session data.
         """
         product_id = product.id
-        if product_id not in self.cart:
+        if product_id in self.cart:
         # Add product to cart
-            self.cart[product_id] = {'price': str(product.price), 'qty': int(qty)}
+            self.cart[product_id]['qty'] = qty
         else:
         # Update quantity if product exists
-            self.cart[product_id]['qty'] += qty
+            self.cart[product_id] = {'price': str(product.price), 'qty': int(qty)}
 
         self.save()
 
@@ -72,14 +72,14 @@ class Cart():
 
 
 
-    def get_total_price(self):
-        """
-        Calculate total price including shipping.
-        """
-        subtotal = sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
-        shipping = Decimal(0.00) if subtotal == 0 else Decimal(10.00)  # Example shipping fee
-        total = subtotal + shipping
-        return total
+    # def get_total_price(self):
+    #     """
+    #     Calculate total price including shipping.
+    #     """
+    #     subtotal = sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
+    #     shipping = Decimal(0.00) if subtotal == 0 else Decimal(10.00)  # Example shipping fee
+    #     total = subtotal + shipping
+    #     return total
 
 
     # def get_total_price(self):
