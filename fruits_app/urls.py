@@ -16,4 +16,5 @@ urlpatterns = [
     path('checkout/', views.checkout, name='checkout'),
     path('blog/', views.blog, name='blog'),
     path('single-blog/<int:id>/', views.single_blog, name='single-blog'),
+    
 ]

@@ -9,7 +9,65 @@
 {% block content %}
 
 
-	
+	<style>
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+}
+
+.about-us {
+      padding: 60px 20px;
+  }
+
+  .about-us h2 {
+      font-size: 2.5rem;
+      color: #f57c00; /* Food-themed color */
+      margin-bottom: 20px;
+  }
+
+  .about-us p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+  }
+  .about-us img {
+      width: 100%; /* Make the image fill its column */
+      max-width: 700px; /* Set a maximum size for larger screens */
+      height: auto; /* Maintain aspect ratio */
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: block;
+      margin: 0 auto; /* Center the image */
+  }
+.section {
+      padding: 60px 20px;
+  }
+
+  .section.bg-light {
+      background-color: #f1f1f1;
+  }
+
+  .section h2 {
+      font-size: 2.5rem;
+      color: #f57c00;
+      margin-bottom: 20px;
+  }
+
+  .section p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto;
+  }
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+}
+
+	</style>
 	<!-- breadcrumb-section -->
 	<div class="breadcrumb-section breadcrumb-bg">
 		<div class="container">
@@ -26,188 +84,42 @@
 	<!-- end breadcrumb section -->
 
 	<!-- featured section -->
-	<div class="about-img" style="background-image: ({% static 'assets/img/about.jpeg'%});">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-7">
-
-				</div>
+	<div class="about-us container">
+		<div class="row align-items-center">
+			<div class="col-md-6">
+				<h2>Our story</h2>
+				<p>Welcome to TasteQuest, your ultimate destination for delicious recipes and cooking inspiration. 
+				   At TasteQuest, we believe that food is more than just sustenance—it's an experience. Our journey began with a passion for creating flavorful, healthy meals that bring people together around the table. Our team of culinary experts, food enthusiasts, and nutritionists work tirelessly to curate the best dishes from around the world, ensuring that every recipe we share is both nourishing and delightful.</p>
+				<p>We are committed to making cooking easy, fun, and accessible for everyone. Whether you're a seasoned chef or a beginner, our collection of recipes will inspire you to try new flavors and techniques. At TasteQuest, we believe in using fresh, locally-sourced ingredients to create dishes that are as good for your body as they are for your taste buds.</p>
+			</div>
+			<div class="col-md-6">
+				<img src="{% static 'assets/img/about-img.jpeg' %}" alt="About Us">
 			</div>
 		</div>
-	</div>
-	 <div class="about-img" style="background-image:url({% static 'assets/img/about.jpeg'%});">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-7">
-					<div class="featured-text">
-						 <h2 class="pb-3">Why <span class="orange-text">TasteQuest</span></h2> 
-						<div class="row">
-							<div class="col-lg-6 col-md-6 mb-4 mb-md-5">
-								<div class="list-box d-flex">
-									<div class="list-icon">
-										<i class="fas fa-shipping-fast"></i>
-									</div>
-									<div class="content">
-										<h3>Home Delivery</h3>
-										<p>sit voluptatem accusantium dolore mque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6 mb-5 mb-md-5">
-								<div class="list-box d-flex">
-									<div class="list-icon">
-										<i class="fas fa-money-bill-alt"></i>
-									</div>
-									<div class="content">
-										<h3>Best Price</h3>
-										<p>sit voluptatem accusantium dolore mque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6 mb-5 mb-md-5">
-								<div class="list-box d-flex">
-									<div class="list-icon">
-										<i class="fas fa-briefcase"></i>
-									</div>
-									<div class="content">
-										<h3>Custom Box</h3>
-										<p>sit voluptatem accusantium dolore mque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6">
-								<div class="list-box d-flex">
-									<div class="list-icon">
-										<i class="fas fa-sync-alt"></i>
-									</div>
-									<div class="content">
-										<h3>Quick Refund</h3>
-										<p>sit voluptatem accusantium dolore mque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end featured section -->
+	  </div>
+	  
 
-	<!-- shop banner
-	 <!-- <section class="shop-banner"> -->
-    	<div class="container">
-        	<h3>December sale is on! <br> with big <span class="orange-text">Discount...</span></h3>
-            <div class="sale-percent"><span>Sale! <br> Upto</span>50% <span>off</span></div>
-            <a href="{% url 'fruits_app:shop' %}" class="cart-btn btn-lg">Shop Now</a>
-        </div>
-    </section>
-	<!- end shop banner -->
-
-	<!-- team section -->
-	<div class="mt-150">
+    <!-- Mission Section -->
+    <section id="mission" class="section bg-light text-center">
 		<div class="container">
-			<div class="row">
-				<div class="col-lg-8 offset-lg-2 text-center">
-					<div class="section-title">
-						<h3>Our <span class="orange-text">Team</span></h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-4 col-md-6">
-					<div class="single-team-item">
-						<div class="team-bg team-bg-1"></div>
-						<h4>Jimmy Doe <span>Farmer</span></h4>
-						<ul class="social-link-team">
-							<li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single-team-item">
-						<div class="team-bg team-bg-2"></div>
-						<h4>Marry Doe <span>Farmer</span></h4>
-						<ul class="social-link-team">
-							<li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6 offset-md-3 offset-lg-0">
-					<div class="single-team-item">
-						<div class="team-bg team-bg-3"></div>
-						<h4>Simon Joe <span>Farmer</span></h4>
-						<ul class="social-link-team">
-							<li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
-							<li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
+			<h2>Our Mission</h2>
+			<p>At TasteQuest, our mission is simple yet powerful: to make cooking an enjoyable and rewarding experience for everyone. We strive to deliver high-quality, easy-to-follow recipes that inspire people to cook from the heart. Our goal is to promote healthy eating without sacrificing flavor or fun. Every recipe we create is designed to be not only delicious but also accessible to anyone, no matter their skill level in the kitchen.</p>
+			<p>We are committed to sustainability and ethical food sourcing. By working with local farmers and food producers, we ensure that the ingredients we use are fresh, organic, and environmentally responsible. At TasteQuest, we believe that food has the power to nourish both the body and the planet, and we’re dedicated to promoting a healthier, more sustainable food culture.</p>
+			<p>Above all, we are passionate about fostering a community of food lovers who share our values. Whether through our blog, recipe videos, or social media channels, we aim to build a supportive network where food enthusiasts can exchange ideas, share experiences, and celebrate the joy of cooking together.</p>
 		</div>
-	</div>
-	<!-- end team section -->
+	  </section>
+	  
 
-	<!-- testimonail-section -->
-	<div class="testimonail-section mt-80 mb-150">
+    <!-- Vision Section -->
+    <section id="vision" class="section text-center">
 		<div class="container">
-			<div class="row">
-				<div class="col-lg-10 offset-lg-1 text-center">
-					<div class="testimonial-sliders">
-						<div class="single-testimonial-slider">
-							<div class="client-avater">
-								<img src="{% static 'assets/img/avaters/avatar1.png' %}" alt="">
-							</div>
-							<div class="client-meta">
-								<h3>Saira Hakim <span>Local shop owner</span></h3>
-								<p class="testimonial-body">
-									" Sed ut perspiciatis unde omnis iste natus error veritatis et  quasi architecto beatae vitae dict eaque ipsa quae ab illo inventore Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium "
-								</p>
-								<div class="last-icon">
-									<i class="fas fa-quote-right"></i>
-								</div>
-							</div>
-						</div>
-						<div class="single-testimonial-slider">
-							<div class="client-avater">
-								<img src="{% static 'assets/img/avaters/avatar2.png' %}" alt="">
-							</div>
-							<div class="client-meta">
-								<h3>David Niph <span>Local shop owner</span></h3>
-								<p class="testimonial-body">
-									" Sed ut perspiciatis unde omnis iste natus error veritatis et  quasi architecto beatae vitae dict eaque ipsa quae ab illo inventore Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium "
-								</p>
-								<div class="last-icon">
-									<i class="fas fa-quote-right"></i>
-								</div>
-							</div>
-						</div>
-						<div class="single-testimonial-slider">
-							<div class="client-avater">
-								<img src="{% static 'assets/img/avaters/avatar3.png' %}" alt="">
-							</div>
-							<div class="client-meta">
-								<h3>Jacob Sikim <span>Local shop owner</span></h3>
-								<p class="testimonial-body">
-									" Sed ut perspiciatis unde omnis iste natus error veritatis et  quasi architecto beatae vitae dict eaque ipsa quae ab illo inventore Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium "
-								</p>
-								<div class="last-icon">
-									<i class="fas fa-quote-right"></i>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<h2>Our Vision</h2>
+			<p>Our vision is to become the leading platform for food lovers around the world. We aim to build a global community where cooking is celebrated as an art form, and healthy, delicious meals are the norm rather than the exception. We envision a future where TasteQuest is the go-to source for culinary inspiration, offering a diverse range of recipes that cater to all tastes, dietary preferences, and cultural traditions.</p>
+			<p>We want to empower individuals and families to make healthier choices, reconnect with the joys of cooking, and appreciate the cultural significance of food. Our vision extends beyond just recipes—we seek to create an inclusive space where people can learn, share, and grow in their culinary journey.</p>
+			<p>In the years to come, we hope to expand our reach and become a hub for all things food-related, offering not only recipes but also cooking classes, nutrition tips, and resources for sustainable living. At TasteQuest, we are driven by the belief that good food can change lives, and we are committed to making that vision a reality for people everywhere.</p>
 		</div>
-	</div>
-	<!-- end testimonail-section -->
+	  </section>
+
 	{% endblock %}
 
 	

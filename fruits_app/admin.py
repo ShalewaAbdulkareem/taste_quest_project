@@ -8,7 +8,5 @@ admin.site.register(Blog)
 admin.site.register(Contact)
 admin.site.register(Cart)
 admin.site.register(Comment)
-admin.site.register(Reply)
-admin.site.register(CommentReaction)
 
 

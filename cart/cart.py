@@ -72,14 +72,14 @@ class Cart():
 
 
 
-    # def get_total_price(self):
-    #     """
-    #     Calculate total price including shipping.
-    #     """
-    #     subtotal = sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
-    #     shipping = Decimal(0.00) if subtotal == 0 else Decimal(10.00)  # Example shipping fee
-    #     total = subtotal + shipping
-    #     return total
+    def get_total_price(self):
+        """
+        Calculate total price including shipping.
+        """
+        subtotal = sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
+        delivery_fee = Decimal(100.00) if subtotal > 0 else Decimal(0.00)  # Match with HTML
+        total = subtotal + delivery_fee
+        return total
 
 
     # def get_total_price(self):

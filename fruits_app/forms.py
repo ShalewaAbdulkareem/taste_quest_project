@@ -1,18 +1,14 @@
 from django import forms
-from .models import Comment,Reply,CommentReaction
+from .models import Contact,Comment
+
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['name', 'email', 'phone', 'subject', 'message']
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['name', 'message']
 
-
-class ReplyForm(forms.ModelForm):
-    class Meta:
-        model = Reply
-        fields = ['name', 'message']
-
-class CommentReactionForm(forms.ModelForm):
-    class Meta:
-        model = CommentReaction
-        fields = ['like', 'dislike']

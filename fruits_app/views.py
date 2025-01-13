@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404,redirect
-from .models import Product,Category,Blog,Contact,Cart,Comment,Reply,CommentReaction
+from .models import Product,Category,Blog,Contact,Cart,Comment
 from django.contrib import messages
 from django.core.paginator import Paginator
-from .forms import CommentForm,ReplyForm,CommentReactionForm
+from .forms import CommentForm
 
 
 
@@ -25,20 +25,20 @@ def index(request):
     return render(request, 'index_2.html', context)
 def about(request):
     return render(request, 'about.html')
+
+
 def contact(request):
     if request.method == 'POST':
         name = request.POST.get('name')
-        phone = request.POST.get('phone')
         email = request.POST.get('email')
         subject = request.POST.get('subject')
         message = request.POST.get('message')
 
-       
         if not name or not email or not subject or not message:
             messages.error(request, 'Fields cannot be empty')
         else:
-           data = Contact(name=name, phone=phone, email=email, subject=subject, message=message)
-           email_subject = f'{subject}: FROM TASTEQUEST WEBSITE'
+           data = Contact(name=name, email=email, subject=subject, message=message)
+           email_subject = f'{subject}: FROM TASTE_QUEST WEBSITE'
            email_data = {
             'name': name,
             'email': email,
@@ -46,7 +46,7 @@ def contact(request):
            }
            html_message = render_to_string('contact-mail.html', email_data)
            plain_message = strip_tags(html_message)
-           from_email = settings.EMAIL_HOST_USER
+           from_email = 'TASTE QUEST<abdulkareemtemilayo@gmail.com>'
            recepient_list = [settings.EMAIL_HOST_USER, ]
         try:
             email_message = EmailMessage(email_subject, plain_message, to=recepient_list, from_email=from_email)
@@ -57,6 +57,7 @@ def contact(request):
             messages.error(request, 'Failed to send message')
             
     return render(request, 'contact.html')
+
 def shop(request):
     product = Product.objects.all()
     page_number = request.GET.get('page') 
@@ -94,57 +95,60 @@ def blog(request):
     }
     return render(request, 'blog.html', context)
 
-
+from django.shortcuts import get_object_or_404
 
 def single_blog(request, id):
+    # Fetch the blog details
     blog_details = get_object_or_404(Blog, id=id)
-    comments = Comment.objects.filter(blog=blog_details).order_by('-created_at')
-    comment_form = CommentForm()
+    comments = Comment.objects.filter(blog=blog_details)  # Fetch comments related to the blog
 
-    if request.method == 'POST':
+    if request.method == "POST":
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
-            comment.blog = blog_details 
+            comment.blog = blog_details  # Link the comment to the blog
             comment.save()
-            messages.success(request, "Your comment has been posted!")
-            return redirect('fruits_app:single-blog', id=blog_details.id)
+            messages.success(request, "Your review has been submitted.")
+        else:
+            messages.error(request, "There was an error with your review. Please try again.")
+    else:
+        comment_form = CommentForm()
 
-
-    # Handle comment replies
-    if request.method == 'POST' and 'reply_form' in request.POST:
-        reply_form = ReplyForm(request.POST)
-        if reply_form.is_valid():
-            comment = get_object_or_404(Comment, id=request.POST.get('comment_id'))
-            reply = reply_form.save(commit=False)
-            reply.comment = comment
-            reply.save()
-            return redirect('fruits_app:single-blog', blog_id=blog_id)
-    
-    # Handle comment likes/dislikes
-    if request.method == 'POST' and 'reaction_form' in request.POST:
-        reaction_form = CommentReactionForm(request.POST)
-        if reaction_form.is_valid():
-            comment = get_object_or_404(Comment, id=request.POST.get('comment_id'))
-            reaction, created = CommentReaction.objects.get_or_create(comment=comment, user=request.user)
-            reaction.like = reaction_form.cleaned_data['like']
-            reaction.dislike = reaction_form.cleaned_data['dislike']
-            reaction.save()
-            return redirect('fruits_app:single-blog', blog_id=blog_id)
-    
-    return render(request, 'single_blog.html', {
-        'blog_details': blog_details,
-        'comments': comments,
-        'comment_form': ReplyForm(),
-    })
-
-
-
-
+    # Prepare the context for rendering
     context = {
-        'blog_details': blog_details,
-        'comment_form': comment_form,
-        'comments': comments,
-         
+        "blog_details": blog_details,
+        "comments": comments,
+        "comment_form": comment_form,
     }
-    return render(request, 'single-blog.html', context)
+
+    return render(request, "single-blog.html", context)
+
+
+    # context = {
+    #         "blog_details": blog_details,
+    #         "comments": comments,
+    #         "comment_form": comment_form,
+    #     }
+    #     return render(request, 'single_blog.html', context)
+
+    # blog_details = get_object_or_404(Blog, id=id)
+    # reviews = Review.objects.filter(blog=blog_details).order_by('-created_at')  # Get reviews related to the blog
+
+    # if request.method == 'POST':
+    #     form = ReviewForm(request.POST)
+    #     if form.is_valid():
+    #         review = form.save(commit=False)  # Create an instance but don't save it yet
+    #         review.blog = blog_details  # Associate the review with the blog
+    #         review.save()  # Now save the review
+    #         return redirect('single_blog', id=id)  # Redirect to the same page to show the new comment
+    # else:
+    #     form = ReviewForm()  # Initialize an empty form
+
+    # context = {
+    #     'blog_details': blog_details,
+    #     'reviews': reviews,  # Fix the spelling error from 'reiews' to 'reviews'
+    #     'form': form
+    # }
+    # return render(request, 'single-blog.html', context)
+
+
